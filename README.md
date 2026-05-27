@@ -120,99 +120,58 @@ Category ~ Dirichlet(α=2, 2, 2, 2, 2) across 5 categories
 
 ---
 
-## Installation
+## Run in Google Colab (Recommended)
+
+No local setup needed. Click the badge below to open the notebook directly in Colab:
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1RpWHF8HSSYryp2ZW1IRRKi2tfQCY-2ik?usp=sharing)
+
+
+The first cell in the notebook installs all dependencies for you:
+
+```python
+!pip install sentence-transformers faiss-cpu scipy scikit-learn -q
+```
+
+Just click **Runtime → Run All** and the full pipeline runs end to end in about 2–3 minutes on a free Colab CPU.
+
+---
+
+## Local Installation (Optional)
+
+If you prefer to run locally:
 
 ```bash
 git clone https://github.com/[your-username]/rag-credit-card-recommendation.git
 cd rag-credit-card-recommendation
-
-pip install -r requirements.txt
-```
-
-**requirements.txt:**
-```
-numpy>=1.24
-pandas>=1.5
-scikit-learn>=1.2
-scipy>=1.9
-sentence-transformers>=2.2
-faiss-cpu>=1.7
-```
-
-> GPU users: replace `faiss-cpu` with `faiss-gpu`
-
----
-
-## Usage
-
-### Run the full experiment pipeline
-
-```bash
+pip install sentence-transformers faiss-cpu scipy scikit-learn numpy pandas
 jupyter notebook research_book3.ipynb
 ```
 
-Or run as a script:
+---
 
-```bash
-python full_pipeline.py
-```
+## What the Notebook Does
 
-This will:
-1. Generate the 20-card dataset and 2,000 synthetic users
-2. Build the FAISS index (≈ 0.46 seconds)
-3. Run all 4 models under all 4 scenarios
+Running `research_book3.ipynb` from top to bottom will:
+
+1. Build the 20-card dataset and generate 2,000 synthetic users
+2. Build the FAISS embedding index (≈ 0.46 seconds)
+3. Run all 4 models (Oracle, UBCF, Cosine-CB, RAG-Hybrid) under all 4 scenarios
 4. Run the α ablation (α ∈ {0.0, 0.25, 0.5, 0.75, 1.0})
-5. Run paired t-tests across all scenarios
-6. Print a case study with generated explanations
+5. Run paired t-tests across all scenarios and print exact p-values
+6. Print a case study with generated explanations for a sample user
 7. Save all results to `experiment_results.json`
 
-### Run just the RAG model on a custom user
+### Adjusting the α parameter
+
+Inside the notebook, find the alpha ablation cell and change the value:
 
 ```python
-from full_pipeline import (create_card_dataset, calculate_net_benefit,
-                            build_rag_index, run_rag_hybrid,
-                            generate_explanation)
-from sentence_transformers import SentenceTransformer
-import pandas as pd
-
-# Load cards and build index
-df_cards = create_card_dataset()
-model = SentenceTransformer("all-MiniLM-L6-v2")
-index, _, _ = build_rag_index(df_cards, model)
-
-# Define a user
-user = {
-    "user_id": 1,
-    "annual_income": 800000,
-    "monthly_spend": 20000,
-    "travel_spend": 3000,
-    "dining_spend": 4000,
-    "fuel_spend": 2000,
-    "shopping_spend": 7000,
-    "online_spend": 4000,
-}
-
-# Get recommendations
-preds = run_rag_hybrid(pd.DataFrame([user]), df_cards, model, index, alpha=0.25)
-scores = pd.Series(preds[1], index=df_cards["card_name"])
-top3 = scores.sort_values(ascending=False).head(3).index.tolist()
-
-# Get explanations
-nb = {r["card_name"]: calculate_net_benefit(user, r)
-      for _, r in df_cards[df_cards["income_requirement"] <= user["annual_income"]].iterrows()}
-
-for card in top3:
-    print(generate_explanation(user, card, df_cards, nb))
-```
-
-### Adjust the α parameter
-
-```python
-# For dense settings with full user profiles → use α=0.0 or α=0.25
+# Recommended for cold-start scenarios
 preds = run_rag_hybrid(test_users, df_cards, model, index, alpha=0.25)
 
-# For sparse/unknown user profiles → use α=0.75 or α=1.0
-preds = run_rag_hybrid(test_users, df_cards, model, index, alpha=0.75)
+# Pure financial utility (best when user spend profile is available)
+preds = run_rag_hybrid(test_users, df_cards, model, index, alpha=0.0)
 ```
 
 ---
@@ -222,11 +181,9 @@ preds = run_rag_hybrid(test_users, df_cards, model, index, alpha=0.75)
 ```
 rag-credit-card-recommendation/
 │
-├── research_book3.ipynb       ← Main Jupyter notebook (full pipeline)
-├── full_pipeline.py           ← Standalone Python script version
+├── research_book3.ipynb       ← Full pipeline notebook (open in Colab)
 ├── experiment_results.json    ← Pre-computed results (all scenarios)
 │
-├── requirements.txt
 ├── LICENSE
 └── README.md
 ```
@@ -300,6 +257,22 @@ Every number in the explanation is directly traceable to the card's attribute do
 
 ---
 
+## Citation
+
+If you use this code or dataset in your research, please cite:
+
+```bibtex
+@article{thakur2025ragcredit,
+  author    = {Kajal Thakur and Vijay Khadse},
+  title     = {Explainable {RAG}-Based Credit Card Recommendation System
+               with Financial Utility Optimization and Cold-Start Robustness},
+  year      = {2026},
+  note      = {Under review}
+}
+```
+
+---
+
 ## License
 
 This project is released under the [MIT License](LICENSE).
@@ -311,3 +284,5 @@ The credit card attribute data is compiled from publicly available product pages
 ## Contact
 
 **Kajal Thakur** — `kajal.thakur@coeptech.ac.in`
+Department of Computer Science and Engineering
+COEP Technological University, Pune, India
