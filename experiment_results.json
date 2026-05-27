@@ -1,0 +1,163 @@
+{
+  "results": {
+    "dense": {
+      "Oracle": [
+        0.998,
+        1.0,
+        0.998
+      ],
+      "UBCF": [
+        0.706,
+        1.0,
+        0.803
+      ],
+      "Cosine-CB": [
+        0.304,
+        0.57,
+        0.288
+      ],
+      "RAG-Hybrid": [
+        0.228,
+        0.595,
+        0.198
+      ]
+    },
+    "noise30": {
+      "UBCF": [
+        0.665,
+        1.0,
+        0.783
+      ],
+      "Cosine-CB": [
+        0.279,
+        0.565,
+        0.266
+      ],
+      "RAG-Hybrid": [
+        0.229,
+        0.585,
+        0.198
+      ]
+    },
+    "weak_cs": {
+      "UBCF": [
+        0.692,
+        0.992,
+        0.789
+      ],
+      "Cosine-CB": [
+        0.304,
+        0.57,
+        0.288
+      ],
+      "RAG-Hybrid": [
+        0.228,
+        0.595,
+        0.198
+      ]
+    },
+    "strong_cs": {
+      "UBCF": [
+        0.433,
+        0.978,
+        0.415
+      ],
+      "Cosine-CB": [
+        0.304,
+        0.57,
+        0.288
+      ],
+      "RAG-Hybrid": [
+        0.228,
+        0.595,
+        0.198
+      ]
+    }
+  },
+  "stat_results": {
+    "Dense": {
+      "t": 47.76,
+      "p": "4.1477e-167",
+      "df": 399
+    },
+    "Noise-30%": {
+      "t": 46.698,
+      "p": "8.4078e-164",
+      "df": 399
+    },
+    "Weak CS": {
+      "t": 39.711,
+      "p": "1.0901e-140",
+      "df": 399
+    },
+    "Strong CS": {
+      "t": 15.499,
+      "p": "9.5510e-43",
+      "df": 399
+    }
+  },
+  "alpha_results": {
+    "0.0": [
+      0.998,
+      1.0,
+      0.998
+    ],
+    "0.25": [
+      0.615,
+      0.995,
+      0.74
+    ],
+    "0.5": [
+      0.228,
+      0.595,
+      0.198
+    ],
+    "0.75": [
+      0.12,
+      0.328,
+      0.09
+    ],
+    "1.0": [
+      0.1,
+      0.29,
+      0.063
+    ]
+  },
+  "latency": {
+    "Oracle": 1.19,
+    "UBCF": 0.51,
+    "Cosine-CB": 0.05,
+    "RAG-Hybrid": 25.25
+  },
+  "case_study": {
+    "user_id": 2,
+    "income": 887622,
+    "oracle_top3": [
+      [
+        "ICICI Sapphiro",
+        10793.0
+      ],
+      [
+        "Axis Flipkart",
+        5835.0
+      ],
+      [
+        "HDFC Millennia",
+        5695.0
+      ]
+    ],
+    "rag_top3": [
+      "SBI SimplyCLICK",
+      "SBI PRIME",
+      "ICICI Sapphiro"
+    ],
+    "explanations": [
+      "Recommended SBI SimplyCLICK (by SBI): Your highest spending category is shopping (Rs 6486/month). This card offers 1.0% reward on shopping. Estimated annual reward: Rs 2582. Annual fee: Rs 999. Net benefit: Rs 2083/year.",
+      "Recommended SBI PRIME (by SBI): Your highest spending category is shopping (Rs 6486/month). This card offers 2.5% reward on shopping. Estimated annual reward: Rs 4277. Annual fee: Rs 3000. Net benefit: Rs 4277/year.",
+      "Recommended ICICI Sapphiro (by ICICI): Your highest spending category is shopping (Rs 6486/month). This card offers 2.0% reward on shopping. Estimated annual reward: Rs 4293. Annual fee: Rs 6500. Net benefit: Rs 10793/year."
+    ]
+  },
+  "rag_build_time_sec": 0.46,
+  "n_cards": 20,
+  "n_users": 2000
+}
