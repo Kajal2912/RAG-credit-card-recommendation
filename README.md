@@ -142,7 +142,7 @@ Just click **Runtime → Run All** and the full pipeline runs end to end in abou
 If you prefer to run locally:
 
 ```bash
-git clone https://github.com/[your-username]/rag-credit-card-recommendation.git
+git clone https://github.com/Kajal2912/RAG-credit-card-recommendation
 cd rag-credit-card-recommendation
 pip install sentence-transformers faiss-cpu scipy scikit-learn numpy pandas
 jupyter notebook research_book3.ipynb
@@ -181,7 +181,7 @@ preds = run_rag_hybrid(test_users, df_cards, model, index, alpha=0.0)
 ```
 rag-credit-card-recommendation/
 │
-├── research_book3.ipynb       ← Full pipeline notebook (open in Colab)
+├── Full Pipeline-code.ipynb       ← Full pipeline notebook (open in Colab)
 ├── experiment_results.json    ← Pre-computed results (all scenarios)
 │
 ├── LICENSE
